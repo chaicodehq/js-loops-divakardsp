@@ -38,5 +38,62 @@
  *   // => { selected: [{ color: "golden", length: 5, cost: 250 }], totalLength: 5, totalCost: 250 }
  */
 export function diwaliLightsPlan(lightStrings, budget) {
-  // Your code here
+    if (
+        !Array.isArray(lightStrings) ||
+        typeof budget !== "number" ||
+        budget <= 0
+    ) {
+        return { selected: [], totalLength: 0, totalCost: 0 };
+    }
+
+    const finalBill = { selected: [], totalLength: 0, totalCost: 0 };
+
+    for (const light of lightStrings) {
+        const color = light.color;
+        const length = light["length"];
+        let cost = 0;
+        switch (color) {
+            case "golden":
+                cost = length * 50;
+                let goldenObj = { color, length, cost };
+                finalBill.selected.push(goldenObj);
+                finalBill.totalLength = finalBill.totalLength + length;
+                finalBill.totalCost = finalBill.totalCost + cost;
+                break;
+
+            case "multicolor":
+                cost = length * 40;
+                let multicolorObj = { color, length, cost };
+                finalBill.selected.push(multicolorObj);
+                finalBill.totalLength = finalBill.totalLength + length;
+                finalBill.totalCost = finalBill.totalCost + cost;
+                break;
+
+            case "white":
+                cost = length * 30;
+                let whiteObj = { color, length, cost };
+                finalBill.selected.push(whiteObj);
+                finalBill.totalLength = finalBill.totalLength + length;
+                finalBill.totalCost = finalBill.totalCost + cost;
+                break;
+
+            default:
+                cost = length * 35;
+                let anyOtherObj = { color, length, cost };
+                finalBill.selected.push(anyOtherObj);
+                finalBill.totalLength = finalBill.totalLength + length;
+                finalBill.totalCost = finalBill.totalCost + cost;
+                break;
+        }
+    }
+
+    
+    while(finalBill.totalCost >= budget){
+      const poppedLight = finalBill.selected.pop();
+      finalBill.totalLength = finalBill.totalLength - poppedLight["length"];
+
+      finalBill.totalCost = finalBill.totalCost - poppedLight.cost;
+    }
+
+    return finalBill;
 }
